@@ -1,7 +1,11 @@
 const router = require('express').Router();
+const bcrypt = require('bcrypt');
+
 //import User model
 const User = require('../../database/user/user.model.js');
 
+//Set Constants for bcrypt
+const saltRounds = 10;
 
 //NOTE: Sample Get User route, for with and without passport
 // // check currently-authenticated user, i.e. "who am I?"
@@ -17,49 +21,62 @@ const User = require('../../database/user/user.model.js');
 
 // signup, i.e. "let `me` introduce myself"
 router.post('/', function (req, res, next) {
-  User.findOrCreate({
-    where: {
-      email: req.body.email
-    },
-    defaults: { // if the user doesn't exist, create including this info
-      password: req.body.password
-    }
-  })
-  .spread((user, created) => {
-    if (created) {
-      // with Passport:
-      // req.logIn(user, function (err) {
-      //   if (err) return next(err);
-      //   res.json(user);
-      // });
-      // // before, without Passport:
-      req.session.userId = user.id;
-      res.json(user);
-    } else {
-      res.sendStatus(401); // this user already exists, you cannot sign up
-    }
+  let plaintextPassword = req.body.password;
+  bcrypt.hash(plaintextPassword, saltRounds, (err, hash) => {
+      if (hash && !err){
+        //Success
+        User.findOrCreate({
+          where: {
+            email: req.body.email
+          },
+          defaults: { // if the user doesn't exist, create including this info
+            password: hash
+          }
+        })
+        .spread((user, created) => {
+          if (created) {
+            // with Passport:
+            // req.logIn(user, function (err) {
+            //   if (err) return next(err);
+            //   res.json(user);
+            // });
+            // // before, without Passport:
+            req.session.userId = user.id;
+            res.json(user);
+          } else {
+            res.sendStatus(401); // this user already exists, you cannot sign up
+          }
+        });
+      } else {
+        res.status(401).send(err);
+      }
+
   });
+
 });
 
 
 
 // login, i.e. "you remember `me`, right?"
 router.put('/', function (req, res, next) {
+  let plaintextPassword = req.body.password;
   User.findOne({
-    where: req.body // email and password
+    where: {
+      email: req.body.email}
   })
-  .then(user => {
+  .then( (res) => res.dataValues)
+  .then( (user) => {
     if (!user) {
-      res.sendStatus(401); // no message; good practice to omit why auth fails
+      res.sendStatus(401);
     } else {
-      // with Passport:
-      // req.logIn(user, function (err) {
-      //   if (err) return next(err);
-      //   res.json(user);
-      // });
-      // // before, without Passport:
-      req.session.userId = user.id;
-      res.json(user);
+      console.log('found user: ', user);
+      bcrypt.compare(plaintextPassword, user.password, (err, result) => {
+        if (err) next(err);
+        if (result) {
+          req.session.userId = user.id;
+          res.json(user);
+        }
+      });
     }
   })
   .catch(next);

@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+// import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import history from './utils/history';
 
 import store from './store.js';
 import App from './app.js';
@@ -11,8 +13,8 @@ import './public/stylesheets/index.scss';
 
 ReactDOM.render(
   (<Provider store={store} >
-    <BrowserRouter>
+    <Router history={history}>
       <App />
-    </BrowserRouter>
+    </Router>
   </Provider>),
   document.getElementById('app'));

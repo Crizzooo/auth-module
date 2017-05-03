@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginDispatch, signup, logout } from '../utils/authUtils.js';
+import history from '../utils/history.js';
 
 import './loginStyle.scss';
 
 class LoginComponent extends Component {
-  constructor(props, context) {
+  constructor(props) {
     super(props);
-    console.log("CONTEXT? ", context);
+    console.log("props? ", props);
     this.state = {};
     this.onLoginSubmit = this.onLoginSubmit.bind(this);
     this.onSignupSubmit = this.onSignupSubmit.bind(this);
@@ -21,7 +22,8 @@ class LoginComponent extends Component {
   componentWillUnmount() {
   }
 
-  render() {
+  render(props) {
+    // console.log('render props: ', props);
     return (
       <div className="main">
         <div className="login">
@@ -85,12 +87,13 @@ class LoginComponent extends Component {
   onLogout() {
     console.log('calling logout with this: ', this);
     this.props.logout(this);
-    this.context.history.push('www.google.com');
+    history.push('test');
   }
 
 }
 
 const mapState = state => {
+  console.log('received state: ', state);
   return {
     user: state.auth.user
   };

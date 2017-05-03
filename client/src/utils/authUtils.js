@@ -1,6 +1,5 @@
 const axios = require('axios');
 import { setUser, removeUser } from '../reducers/authReducer.js';
-import { BrowserRouter } from 'react-router-dom';
 
 export const loginDispatch = ({ email, password}) => dispatch => {
   console.log('received email: ', email);
