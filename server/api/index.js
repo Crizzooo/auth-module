@@ -3,6 +3,7 @@ const router = require('express').Router();
 
 //delegate to further api routes
 router.use('/sample', require('./sampleAPIBranch/'));
+router.use('/auth', require('./auth'));
 
 
 router.use( (req, res, next) => {

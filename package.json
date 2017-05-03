@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack -w & nodemon server/index.js --watch server"
+    "start": "npm run seed & webpack -w & nodemon server/index.js --watch server",
+    "seed": "node ./server/database/seed.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.1",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
     "nodemon": "^1.11.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -21,6 +24,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
+    "sequelize": "^3.30.4",
     "volleyball": "^1.4.1",
     "webpack-livereload-plugin": "^0.11.0"
   },

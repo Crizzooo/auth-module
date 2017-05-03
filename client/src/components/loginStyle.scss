@@ -1,0 +1,16 @@
+$login-height: 20vh;
+$login-width: 33vw;
+
+.main {
+  background-color: CornflowerBlue;
+  height: 100%;
+  width: 30%;
+  margin: $login-height calc( (100vw - #{$login-width}) / 2);
+  // margin-top: calc( (100vh - #{$login-height}) / 2);
+  padding: 20px;
+  text-align: center;
+}
+
+.sampleHeader {
+  margin: 20px;
+}

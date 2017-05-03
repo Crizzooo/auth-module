@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const volleyball = require('volleyball');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 
 const PORT = 3000;
 
@@ -15,9 +16,17 @@ app.use(volleyball);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
+//TODO: hide the secret
+//initiate req.session object for authentication
+app.use(session({
+  secret: 'winGARdium leviOHsa',
+  resave: false,
+  saveUninitialized: false
+}));
+
 app.listen(PORT, () => {
   console.log('Server listening on Port: ', PORT);
-})
+});
 
 //redirect api routes
 app.use('/api', require('./api'));

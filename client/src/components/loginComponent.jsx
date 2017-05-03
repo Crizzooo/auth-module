@@ -1,0 +1,101 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { loginDispatch, signup, logout } from '../utils/authUtils.js';
+
+import './loginStyle.scss';
+
+class LoginComponent extends Component {
+  constructor(props, context) {
+    super(props);
+    console.log("CONTEXT? ", context);
+    this.state = {};
+    this.onLoginSubmit = this.onLoginSubmit.bind(this);
+    this.onSignupSubmit = this.onSignupSubmit.bind(this);
+    this.logout = this.onLogout.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('props?', this.props);
+  }
+
+  componentWillUnmount() {
+  }
+
+  render() {
+    return (
+      <div className="main">
+        <div className="login">
+          { (this.props.user) ?
+            <div>
+              <h1> You are logged in!</h1>
+              <button className="" onClick={this.logout}>Logout</button>
+            </div>
+            :
+            <div>
+              <form onSubmit={this.onLoginSubmit}>
+                <h6>Login:<br></br></h6>
+                <input type="text" name="email" placeholder="your email address" required></input><br></br>
+                <br></br>
+                <h6>Password:<br></br></h6>
+                <input type="text" name="password" placeholder="password" required></input>
+                <br></br>
+                <br></br>
+                <button type="submit" className="">Login</button>
+              </form>
+              <hr></hr>
+              <form onSubmit={this.onSignupSubmit}>
+                <h4>Or, Sign Up!</h4>
+                <br></br>
+                <h6>Email Address:<br></br></h6>
+                <input type="text" name="email" type="email" placeholder="desired email" required></input><br></br>
+                <br></br>
+                <h6>Desired Password:<br></br></h6>
+                <input type="text" name="password" type="password" placeholder="password" required></input>
+                <br></br>
+                <br></br>
+                <button type="submit" className="">Sign Up!</button>
+              </form>
+            </div>
+          }
+        </div>
+      </div>
+    );
+  }
+
+  onLoginSubmit(event) {
+    event.preventDefault();
+    const credentials = {
+      email: event.target.email.value,
+      password: event.target.password.value
+    };
+    console.log('received login credentials: ', credentials);
+    this.props.login(credentials);
+  }
+
+  onSignupSubmit(event) {
+    event.preventDefault();
+    const credentials = {
+      email: event.target.email.value,
+      password: event.target.password.value
+    };
+    console.log('received signup credentials: ', credentials);
+    this.props.signup(credentials);
+  }
+
+  onLogout() {
+    console.log('calling logout with this: ', this);
+    this.props.logout(this);
+    this.context.history.push('www.google.com');
+  }
+
+}
+
+const mapState = state => {
+  return {
+    user: state.auth.user
+  };
+};
+
+const mapDispatch = { login: loginDispatch, signup: signup, logout: logout };
+
+export default connect(mapState, mapDispatch)(LoginComponent);
