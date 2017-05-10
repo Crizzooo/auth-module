@@ -3,6 +3,7 @@ const express = require('express');
 const volleyball = require('volleyball');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const passport = require('passport');
 
 const PORT = 3000;
 
@@ -16,13 +17,18 @@ app.use(volleyball);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
-//TODO: hide the secret
+
 //initiate req.session object for authentication
+//TODO: hide the secret
 app.use(session({
   secret: 'winGARdium leviOHsa',
   resave: false,
   saveUninitialized: false
 }));
+
+//Initialize passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.listen(PORT, () => {
   console.log('Server listening on Port: ', PORT);

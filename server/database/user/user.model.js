@@ -11,7 +11,8 @@ const Auth = db.define('auth', {
       unique: true,
       isEmail: true
   },
-  password: Sequelize.STRING
+  password: Sequelize.STRING,
+  googleId: Sequelize.STRING
 });
 
 
