@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginDispatch, signup, logout } from '../utils/authUtils.js';
 import history from '../utils/history.js';
+import GoogleButtonGenerator from './googleSignInButton.jsx';
 
 import './loginStyle.scss';
+
+let googleButton = GoogleButtonGenerator();
 
 class LoginComponent extends Component {
   constructor(props) {
@@ -55,6 +58,7 @@ class LoginComponent extends Component {
                 <input type="text" name="password" type="password" placeholder="password" required></input>
                 <br></br>
                 <br></br>
+                <GoogleButtonGenerator />
                 <button type="submit" className="">Sign Up!</button>
               </form>
             </div>

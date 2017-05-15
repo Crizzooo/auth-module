@@ -1,0 +1,48 @@
+$google-button-width: 100%;
+$google-button-height: 40px;
+$google-image-size: $google-button-height;
+$google-button-font-size: 14px;
+
+.googleSignInButton {
+  height: $google-button-height;
+  background-color: #fcfcfc;
+  font-size: $google-button-font-size;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .2);
+  cursor: pointer;
+  align-self: center;
+  user-select: none;
+  transition: all 400ms ease 0s;
+  display: flex;
+  width: $google-button-width;
+}
+
+ .googleImgContainer {
+  display: flex;
+  width: $google-image-size;
+  height: $google-image-size;
+  border-radius: 2px;
+  user-select: none;
+}
+
+ .googleIconSVG {
+  position: absolute;
+  margin-top: 11px;
+  margin-left: 11px;
+  height: calc(#{$google-image-size} / 2);
+  width: calc(#{$google-image-size} / 2);
+  user-select: none;
+  float: left;
+}
+
+.googleText {
+  position: absolute;
+  margin-top: 13px;
+  // margin-left: calc( ((#{$google-button-width} - #{$google-image-size}) / 2) + #{$google-image-size});
+  margin-left: calc(100% / 5);
+  color: #757575;
+  font-size: 14px;
+  letter-spacing: .2px;
+  font-family: Roboto;
+  user-select: none;
+}
